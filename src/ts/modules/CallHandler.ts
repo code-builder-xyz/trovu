@@ -1,5 +1,6 @@
 /** @module CallHandler */
 import Env from "./Env";
+import { openExternal } from "./UrlOpener";
 import GitLogger from "./GitLogger";
 import ShortcutFinder from "./ShortcutFinder";
 import UrlProcessor from "./UrlProcessor";
@@ -46,7 +47,7 @@ export default class CallHandler {
     }
 
     if (env.isRunningStandalone() && response.status === "found") {
-      window.open(redirectUrl, "_blank");
+      openExternal(redirectUrl);
       const homeUrl = this.getRedirectUrlToHome(env, response);
       window.location.replace(homeUrl);
     } else {

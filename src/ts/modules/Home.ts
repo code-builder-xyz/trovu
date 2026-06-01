@@ -2,6 +2,7 @@
 import "../../scss/style.scss";
 import CallHandler from "./CallHandler";
 import Env from "./Env";
+import { openExternal } from "./UrlOpener";
 import GitLogger from "./GitLogger";
 import Settings from "./home/Settings";
 import Suggestions from "./home/Suggestions";
@@ -315,7 +316,7 @@ export default class Home {
     if (response.status === "found") {
       redirectUrl = response.redirectUrl as string;
       if (envQuery.isRunningStandalone()) {
-        window.open(redirectUrl, "_blank");
+        openExternal(redirectUrl);
         this.queryInput.value = "";
         this.toggleByQuery();
         return;
