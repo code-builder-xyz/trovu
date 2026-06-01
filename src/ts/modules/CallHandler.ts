@@ -45,7 +45,13 @@ export default class CallHandler {
       return;
     }
 
-    window.location.replace(redirectUrl);
+    if (env.isRunningStandalone() && response.status === "found") {
+      window.open(redirectUrl, "_blank");
+      const homeUrl = this.getRedirectUrlToHome(env, response);
+      window.location.replace(homeUrl);
+    } else {
+      window.location.replace(redirectUrl);
+    }
   }
 
   /**
