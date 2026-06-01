@@ -8,7 +8,7 @@ const urlsToCache = [
   "/data.json",
   "/style.css",
   "/main.js",
-  "/manifest.json",
+  "/site.webmanifest",
   "/favicon.ico",
   "/android-chrome-192x192.png",
   "/android-chrome-512x512.png",
