@@ -1,4 +1,4 @@
-const CACHE_NAME = "trovu-v1"; // Consider versioning your cache for easier updates
+const CACHE_NAME = "trovu-v2"; // Increment cache version to invalidate old cache
 const urlsToCache = [
   "/",
   "/index.html",
@@ -19,11 +19,27 @@ const urlsToCache = [
 ];
 
 self.addEventListener("install", (event) => {
+  self.skipWaiting(); // Force active activation of the new Service Worker
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Opened cache");
       return cache.addAll(urlsToCache);
     }),
+  );
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            console.log("Deleting old cache:", cacheName);
+            return caches.delete(cacheName);
+          }
+        }),
+      );
+    }).then(() => self.clients.claim()) // Claim control of active clients immediately
   );
 });
 
